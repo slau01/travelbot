@@ -5,7 +5,7 @@ Resources:
   TravelInsurnace:
     Type: 'AWS::Serverless::Function'
     Properties:
-      Handler: TravelInsurnace/index.handler
+      Handler: TravelInsurnace/getTravelInsuranceQuoteIndex.handler
       Runtime: nodejs6.10
       Description: ''
       MemorySize: 128
