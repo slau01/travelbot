@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: 'AWS::Serverless-2016-10-31'
+Description: An AWS Serverless Specification template describing your function.
+Resources:
+  validateTravelInsurnaceIntent:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: validateTravelInsuranceIntent/index.handler
+      Runtime: nodejs6.10
+      Description: ''
+      MemorySize: 128
+      Timeout: 15
+  fulfilTravelInsurnaceQuote:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: fulfilTravelInsuranceQuote/index.handler
+      Runtime: nodejs6.10
+      Description: ''
+      MemorySize: 128
+      Timeout: 15
+  test:
+    Type: 'AWS::Serverless::Function'
+    Properties:
+      Handler: test/index.handler
+      Runtime: nodejs6.10
+      Description: ''
+      MemorySize: 128
+      Timeout: 15

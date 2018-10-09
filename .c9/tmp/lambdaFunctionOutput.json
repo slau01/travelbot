@@ -1,1 +1,1 @@
-{"dialogAction":{"type":"Delegate","intentName":"PayTravelInsurance","slots":"getTravelPaymentType","message":{"contentType":"PlainText","content":"The quote of your trip to London from Oct 15, 2018 to Oct 30, 2018 is HKD 352."}}}
+{"dialogAction":{"type":"ConfirmIntent","intentName":"PayTravelInsurance","slots":{"getTravelPaymentType":null},"message":{"contentType":"PlainText","content":"The quote of your trip to London from Oct 15, 2018 to Oct 30, 2018 is HKD 913.  Please answer 'Yes' to buy or 'No' to cancel."}}}

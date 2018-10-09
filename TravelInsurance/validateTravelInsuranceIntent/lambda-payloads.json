@@ -1,0 +1,19 @@
+{
+    "bot": {
+        "alias": "TravelBot",
+        "name": "BuyTravelInsurance",
+        "version": "$LATEST"
+    },
+    "invocationSource": "DialogCodeHook",
+    "currentIntent": {
+        "confirmationStatus": "None",
+        "name": "GetTravelInsuranceQuote",
+        "slots": {
+            "GetTripType": "Single Trip",
+            "GetTripStartDate": "Oct 15, 2018",
+            "GetTripReturnDate": "Oct 30, 2018",
+            "GetTripLocation": "London",
+            "GetTripTraveller": "Spouse"
+        }
+    }
+}
