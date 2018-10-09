@@ -13,10 +13,16 @@ function isValidTripType(tripType) {
     return (validTripTypes.indexOf(tripType.toLowerCase()) > -1);
 }
 
-function isValidRoomType(roomType) {
-    const roomTypes = ['queen', 'king', 'deluxe'];
-    return (roomTypes.indexOf(roomType.toLowerCase()) > -1);
+function isValidTripLocation(tripLocation) {
+    return (tripLocation.length > 1);
 }
+
+
+function isValidTripTraveller(tripTraveller) {
+    const validTripTraveller = ['spouse and children only', 'spouse only', 'self only', 'self and children only', 'self and spouse only', 'self, spouse, and children only'];
+    return (validTripTraveller.indexOf(tripTraveller.toLowerCase()) > -1);
+}
+
 
 function isValidDate(date) {
     return !(isNaN(Date.parse(date)));
@@ -42,32 +48,46 @@ function validateTravelInsurance(slots) {
     const tripLocation = slots.GetTripLocation;
     const tripTraveller = slots.GetTripTravller;
 
-    if (!isValidTripType(tripType)) {
-        return buildValidationResult(false, 'GetTripType', `We currently do not support ${tripType} as a valid type.  Can you try a different trip type?`);
+    if (tripType != null) {
+        if (!isValidTripType(tripType)) {
+            console.log("invalid trip type");
+            return buildValidationResult(false, 'GetTripType', `Trip Type ${tripType} is not valid.  Enter a different trip type!`);
+        }
     }
 
-    /**
-        if (location && !isValidCity(location)) {
-            return buildValidationResult(false, 'Location', `We currently do not support ${location} as a valid destination.  Can you try a different city?`);
+    if (tripTraveller != null) {
+        if (!isValidTripTraveller(tripTraveller)) {
+            console.log("invalid trip traveller");
+            return buildValidationResult(false, 'GetTripTravller', `Traveller ${tripTraveller} is not valid.  Enter a different trip traveller!`);
         }
+    }
 
-        if (checkInDate) {
-            if (!isValidDate(checkInDate)) {
-                return buildValidationResult(false, 'CheckInDate', 'I did not understand your check in date.  When would you like to check in?');
-            }
-            if (new Date(checkInDate) < new Date()) {
-                return buildValidationResult(false, 'CheckInDate', 'Your check in date is in the past!  Can you try a different date?');
-            }
+    if (tripStartDate) {
+        if (!isValidDate(tripStartDate)) {
+            return buildValidationResult(false, 'GetTripStartDate', 'I did not understand your trip start date.  When would you like to leave?');
         }
+        if (new Date(tripStartDate) < new Date()) {
+            return buildValidationResult(false, 'GetTripStartDate', 'Your trip start date is in the past!  Can you try a different date?');
+        }
+    }
 
-        if (nights != null && (nights < 1 || nights > 30)) {
-            return buildValidationResult(false, 'Nights', 'You can make a reservations for from one to thirty nights.  How many nights would you like to stay for?');
+    if (tripReturnDate) {
+        if (!isValidDate(tripReturnDate)) {
+            return buildValidationResult(false, 'GetTripReturnDate', 'I did not understand your trip return date.  When would you like to return?');
         }
+        if (new Date(tripReturnDate) < new Date(tripStartDate)) {
+            return buildValidationResult(false, 'GetTripReturnDate', 'Your trip return date is before the trip start date!  Can you try a different date?');
+        }
+    }
 
-        if (roomType && !isValidRoomType(roomType)) {
-            return buildValidationResult(false, 'RoomType', 'I did not recognize that room type.  Would you like to stay in a queen, king, or deluxe room?');
+
+    if (tripLocation != null) {
+        if (!isValidTripLocation(tripLocation)) {
+            console.log("invalid trip location");
+            return buildValidationResult(false, 'GetTripLocation', `Location ${tripLocation} is not valid.  Enter a different trip location!`);
         }
-    **/
+    }
+
     return { isValid: true };
 }
 
