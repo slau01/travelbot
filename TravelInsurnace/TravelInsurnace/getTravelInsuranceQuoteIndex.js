@@ -28,12 +28,6 @@ exports.handler = (event, context, callback) => {
 **/
 
 
-
-
-
-
-
-
 // --------------- Main handler -----------------------
 
 // Route the incoming request based on intent.

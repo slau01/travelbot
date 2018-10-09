@@ -30,6 +30,7 @@
         }
     },
     "run": {
+        "@runner": "Java",
         "configs": {
             "@inited": "true",
             "json()": {}

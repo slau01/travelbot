@@ -45,18 +45,29 @@ function getTravelInsuranceQuote(intentRequest, callback) {
         delete sessionAttributes.currentReservation;
         sessionAttributes.lastConfirmedReservation = reservation;
     **/
-    var msg = "The quote of your trip to " + tripLocation + " from " + tripStartDate + " to " + tripReturnDate + " is HKD " + quote + ".";
+    var msg = "The quote of your trip to " + tripLocation + " from " + tripStartDate + " to " + tripReturnDate + " is HKD " + quote + ".  Please answer 'Yes' to buy or 'No' to cancel.";
+
     let response = {
         sessionAttributes: sessionAttributes,
         dialogAction: {
-            type: "Close",
-            fulfillmentState: "Fulfilled",
+            //            type: "Close",
+            //            fulfillmentState: "Fulfilled",
+            type: "ConfirmIntent",
+            intentName: "PayTravelInsurance",
+            "slots": {
+                "getTravelPaymentType": null,
+                /**                "GetTripType": tripType,
+                                "GetTripStartDate": tripStartDate,
+                                "GetTripReturnDate": tripReturnDate,
+                                "GetTripLocation": tripLocation,
+                                "GetTripTraveller": tripTraveller **/
+            },
             message: {
                 contentType: "PlainText",
                 content: msg
             }
         }
-    }
+    };
     callback(response);
 }
 
