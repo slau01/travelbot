@@ -6,9 +6,18 @@ function getTravelInsuranceQuote(intentRequest, callback) {
     const tripReturnDate = intentRequest.currentIntent.slots.GetTripReturnDate;
     const tripLocation = intentRequest.currentIntent.slots.GetTripLocation;
     const tripTraveller = intentRequest.currentIntent.slots.GetTripTraveller;
-    const sessionAttributes = intentRequest.sessionAttributes;
-
     const quote = Math.floor((Math.random() * 1000) + 1);
+
+    const sessionAttributes = {
+        "tripType": tripType,
+        "tripStartDate": tripStartDate,
+        "tripReturnDate": tripReturnDate,
+        "tripLocation": tripLocation,
+        "tripTraveller": tripTraveller,
+        "quote": quote,
+        "paymentType": ""
+    };
+
     const message = "The quote of your trip is HKD " + quote + ".\n Answer 'Yes' to proceed. 'No' to cancel." +
         "\n Trip Type: " + tripType +
         "\n Traveller: " + tripTraveller +
@@ -22,7 +31,7 @@ function getTravelInsuranceQuote(intentRequest, callback) {
             type: "ConfirmIntent",
             intentName: "PayTravelInsurance",
             "slots": {
-                "getTravelPaymentType": null,
+                "GetTravelPaymentType": null,
             },
             message: {
                 contentType: "PlainText",

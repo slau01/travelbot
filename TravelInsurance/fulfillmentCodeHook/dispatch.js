@@ -1,6 +1,7 @@
 'use strict'
 
 const getTravelInsuranceQuote = require("./getTravelInsuranceQuote");
+const payTravelInsurance = require("./payTravelInsurance");
 
 function dispatch(intentRequest, callback) {
     console.log(`dispatch userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.name}`);
@@ -11,9 +12,9 @@ function dispatch(intentRequest, callback) {
     if (intentName === 'GetTravelInsuranceQuote') {
         return getTravelInsuranceQuote(intentRequest, callback);
     }
-    /**    else if (intentName === 'BuyTravelInsurance') {
-            return BuyTravelInsurance(intentRequest, callback);
-        }**/
+    else if (intentName === 'PayTravelInsurance') {
+        return payTravelInsurance(intentRequest, callback);
+    }
     throw new Error(`Intent with name ${intentName} not supported`);
 }
 

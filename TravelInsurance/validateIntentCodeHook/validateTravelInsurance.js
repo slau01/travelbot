@@ -41,7 +41,7 @@ function addDays(date, numberOfDays) {
 }
 
 
-function validateTravelInsurance(slots) {
+function validatePayTravelInsurance(slots) {
     const tripType = slots.GetTripType;
     const tripStartDate = slots.GetTripStartDate;
     const tripReturnDate = slots.GetTripReturnDate;
@@ -91,4 +91,4 @@ function validateTravelInsurance(slots) {
     return { isValid: true };
 }
 
-module.exports = validateTravelInsurance;
+module.exports = validatePayTravelInsurance;

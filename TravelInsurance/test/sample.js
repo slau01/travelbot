@@ -1,16 +1,16 @@
 'use strict';
 
- /**
-  * This sample demonstrates an implementation of the Lex Code Hook Interface
-  * in order to serve a sample bot which manages reservations for hotel rooms and car rentals.
-  * Bot, Intent, and Slot models which are compatible with this sample can be found in the Lex Console
-  * as part of the 'BookTrip' template.
-  *
-  * For instructions on how to set up and test this bot, as well as additional samples,
-  *  visit the Lex Getting Started documentation.
-  */
+/**
+ * This sample demonstrates an implementation of the Lex Code Hook Interface
+ * in order to serve a sample bot which manages reservations for hotel rooms and car rentals.
+ * Bot, Intent, and Slot models which are compatible with this sample can be found in the Lex Console
+ * as part of the 'BookTrip' template.
+ *
+ * For instructions on how to set up and test this bot, as well as additional samples,
+ *  visit the Lex Getting Started documentation.
+ */
 
- // --------------- Helpers that build all of the responses -----------------------
+// --------------- Helpers that build all of the responses -----------------------
 
 function elicitSlot(sessionAttributes, intentName, slots, slotToElicit, message) {
     return {
@@ -90,8 +90,9 @@ function isValidCarType(carType) {
 
 function isValidCity(city) {
     const validCities = ['new york', 'los angeles', 'chicago', 'houston', 'philadelphia', 'phoenix', 'san antonio', 'san diego', 'dallas', 'san jose',
-    'austin', 'jacksonville', 'san francisco', 'indianapolis', 'columbus', 'fort worth', 'charlotte', 'detroit', 'el paso', 'seattle', 'denver', 'washington dc',
-    'memphis', 'boston', 'nashville', 'baltimore', 'portland'];
+        'austin', 'jacksonville', 'san francisco', 'indianapolis', 'columbus', 'fort worth', 'charlotte', 'detroit', 'el paso', 'seattle', 'denver', 'washington dc',
+        'memphis', 'boston', 'nashville', 'baltimore', 'portland'
+    ];
     return (validCities.indexOf(city.toLowerCase()) > -1);
 }
 
@@ -215,9 +216,6 @@ function bookHotel(intentRequest, callback) {
     const sessionAttributes = intentRequest.sessionAttributes;
 
     // Load confirmation history and track the current reservation.
-    const reservation = String(JSON.stringify({ ReservationType: 'Hotel', Location: location, RoomType: roomType, CheckInDate: checkInDate, Nights: nights }));
-    sessionAttributes.currentReservation = reservation;
-
     if (intentRequest.invocationSource === 'DialogCodeHook') {
         // Validate any slots which have been specified.  If any are invalid, re-elicit for their value
         const validationResult = validateHotel(intentRequest.currentIntent.slots);
@@ -225,7 +223,7 @@ function bookHotel(intentRequest, callback) {
             const slots = intentRequest.currentIntent.slots;
             slots[`${validationResult.violatedSlot}`] = null;
             callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name,
-            slots, validationResult.violatedSlot, validationResult.message));
+                slots, validationResult.violatedSlot, validationResult.message));
             return;
         }
 
@@ -234,7 +232,8 @@ function bookHotel(intentRequest, callback) {
             // The price of the hotel has yet to be confirmed.
             const price = generateHotelPrice(location, nights, roomType);
             sessionAttributes.currentReservationPrice = price;
-        } else {
+        }
+        else {
             delete sessionAttributes.currentReservationPrice;
         }
         sessionAttributes.currentReservation = reservation;
@@ -249,8 +248,7 @@ function bookHotel(intentRequest, callback) {
     delete sessionAttributes.currentReservation;
     sessionAttributes.lastConfirmedReservation = reservation;
 
-    callback(close(sessionAttributes, 'Fulfilled',
-    { contentType: 'PlainText', content: 'Thanks, I have placed your reservation.   Please let me know if you would like to book a car rental, or another hotel.' }));
+    callback(close(sessionAttributes, 'Fulfilled', { contentType: 'PlainText', content: 'Thanks, I have placed your reservation.   Please let me know if you would like to book a car rental, or another hotel.' }));
 }
 
 /**
@@ -288,7 +286,7 @@ function bookCar(intentRequest, callback) {
         if (!validationResult.isValid) {
             slots[`${validationResult.violatedSlot}`] = null;
             callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name,
-            slots, validationResult.violatedSlot, validationResult.message));
+                slots, validationResult.violatedSlot, validationResult.message));
             return;
         }
 
@@ -298,8 +296,7 @@ function bookCar(intentRequest, callback) {
             delete sessionAttributes.confirmationContext;
             delete sessionAttributes.currentReservation;
             if (confirmationContext === 'AutoPopulate') {
-                callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name, { PickUpCity: null, PickUpDate: null, ReturnDate: null, DriverAge: null, CarType: null }, 'PickUpCity',
-                { contentType: 'PlainText', content: 'Where would you like to make your car reservation?' }));
+                callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name, { PickUpCity: null, PickUpDate: null, ReturnDate: null, DriverAge: null, CarType: null }, 'PickUpCity', { contentType: 'PlainText', content: 'Where would you like to make your car reservation?' }));
                 return;
             }
             callback(delegate(sessionAttributes, intentRequest.currentIntent.slots));
@@ -312,15 +309,13 @@ function bookCar(intentRequest, callback) {
                 if (lastConfirmedReservation && lastConfirmedReservation.ReservationType === 'Hotel') {
                     //If the user's previous reservation was a hotel - prompt for a rental with auto-populated values to match this reservation.
                     sessionAttributes.confirmationContext = 'AutoPopulate';
-                    callback(confirmIntent(sessionAttributes, intentRequest.currentIntent.name,
-                        {
-                            PickUpCity: lastConfirmedReservation.Location,
-                            PickUpDate: lastConfirmedReservation.CheckInDate,
-                            ReturnDate: `${addDays(lastConfirmedReservation.CheckInDate, lastConfirmedReservation.Nights)}`,
-                            CarType: null,
-                            DriverAge: null,
-                        },
-                        { contentType: 'PlainText', content: `Is this car rental for your ${lastConfirmedReservation.Nights} night stay in ${lastConfirmedReservation.Location} on ${lastConfirmedReservation.CheckInDate}?` }));
+                    callback(confirmIntent(sessionAttributes, intentRequest.currentIntent.name, {
+                        PickUpCity: lastConfirmedReservation.Location,
+                        PickUpDate: lastConfirmedReservation.CheckInDate,
+                        ReturnDate: `${addDays(lastConfirmedReservation.CheckInDate, lastConfirmedReservation.Nights)}`,
+                        CarType: null,
+                        DriverAge: null,
+                    }, { contentType: 'PlainText', content: `Is this car rental for your ${lastConfirmedReservation.Nights} night stay in ${lastConfirmedReservation.Location} on ${lastConfirmedReservation.CheckInDate}?` }));
                     return;
                 }
             }
@@ -335,12 +330,11 @@ function bookCar(intentRequest, callback) {
             delete sessionAttributes.confirmationContext;
             if (confirmationContext === 'AutoPopulate') {
                 if (!driverAge) {
-                    callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name, intentRequest.currentIntent.slots, 'DriverAge',
-                    { contentType: 'PlainText', content: 'How old is the driver of this car rental?' }));
+                    callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name, intentRequest.currentIntent.slots, 'DriverAge', { contentType: 'PlainText', content: 'How old is the driver of this car rental?' }));
                     return;
-                } else if (!carType) {
-                    callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name, intentRequest.currentIntent.slots, 'CarType',
-                    { contentType: 'PlainText', content: 'What type of car would you like? Popular models are economy, midsize, and luxury.' }));
+                }
+                else if (!carType) {
+                    callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name, intentRequest.currentIntent.slots, 'CarType', { contentType: 'PlainText', content: 'What type of car would you like? Popular models are economy, midsize, and luxury.' }));
                     return;
                 }
             }
@@ -354,11 +348,10 @@ function bookCar(intentRequest, callback) {
     delete sessionAttributes.currentReservationPrice;
     delete sessionAttributes.currentReservation;
     sessionAttributes.lastConfirmedReservation = reservation;
-    callback(close(sessionAttributes, 'Fulfilled',
-    { contentType: 'PlainText', content: 'Thanks, I have placed your reservation.' }));
+    callback(close(sessionAttributes, 'Fulfilled', { contentType: 'PlainText', content: 'Thanks, I have placed your reservation.' }));
 }
 
- // --------------- Intents -----------------------
+// --------------- Intents -----------------------
 
 /**
  * Called when the user specifies an intent for this skill.
@@ -371,7 +364,8 @@ function dispatch(intentRequest, callback) {
     // Dispatch to your skill's intent handlers
     if (intentName === 'BookHotel') {
         return bookHotel(intentRequest, callback);
-    } else if (intentName === 'BookCar') {
+    }
+    else if (intentName === 'BookCar') {
         return bookCar(intentRequest, callback);
     }
     throw new Error(`Intent with name ${intentName} not supported`);
@@ -395,7 +389,8 @@ exports.handler = (event, context, callback) => {
         }
         */
         dispatch(event, (response) => callback(null, response));
-    } catch (err) {
+    }
+    catch (err) {
         callback(err);
     }
 };
