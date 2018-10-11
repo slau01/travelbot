@@ -1,53 +1,7 @@
 'use strict'
 //const lexResponses = require("./lexResponses");
 const validatePayTravelInsurance = require("./validatePayTravelInsurance");
-
-function elicitSlot(sessionAttributes, intentName, slots, slotToElicit, message) {
-    return {
-        sessionAttributes,
-        dialogAction: {
-            type: 'ElicitSlot',
-            intentName,
-            slots,
-            slotToElicit,
-            message,
-        },
-    };
-}
-
-function confirmIntent(sessionAttributes, intentName, slots, message) {
-    return {
-        sessionAttributes,
-        dialogAction: {
-            type: 'ConfirmIntent',
-            intentName,
-            slots,
-            message,
-        },
-    };
-}
-
-function close(sessionAttributes, fulfillmentState, message) {
-    return {
-        sessionAttributes,
-        dialogAction: {
-            type: 'Close',
-            fulfillmentState,
-            message,
-        },
-    };
-}
-
-function delegate(sessionAttributes, slots) {
-    return {
-        sessionAttributes,
-        dialogAction: {
-            type: 'Delegate',
-            slots,
-        },
-    };
-}
-
+const lexResponses = require("./../../common/lexResponses");
 
 function payTravelInsuranceIntent(intentRequest, callback) {
     const tripType = intentRequest.currentIntent.slots.GetTripType;
@@ -67,12 +21,12 @@ function payTravelInsuranceIntent(intentRequest, callback) {
             const slots = intentRequest.currentIntent.slots;
             slots[`${validationResult.violatedSlot}`] = null;
             console.log("call elicitSlot: " + slots.currentIntent);
-            callback(elicitSlot(sessionAttributes, intentRequest.currentIntent.name,
+            callback(lexResponses.elicitSlot(sessionAttributes, intentRequest.currentIntent.name,
                 slots, validationResult.violatedSlot, validationResult.message));
             return;
         }
         console.log("call delegate");
-        callback(delegate(sessionAttributes, intentRequest.currentIntent.slots));
+        callback(lexResponses.delegate(sessionAttributes, intentRequest.currentIntent.slots));
         return;
     }
 }

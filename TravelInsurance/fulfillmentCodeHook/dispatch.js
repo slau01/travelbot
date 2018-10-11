@@ -1,7 +1,7 @@
 'use strict'
 
-const getTravelInsuranceQuote = require("./getTravelInsuranceQuote");
-const payTravelInsurance = require("./payTravelInsurance");
+const getTravelInsuranceQuote = require("./getTravelInsuranceQuote/getTravelInsuranceQuote");
+const payTravelInsurance = require("./payTravelInsurance/payTravelInsurance");
 
 function dispatch(intentRequest, callback) {
     console.log(`dispatch userId=${intentRequest.userId}, intentName=${intentRequest.currentIntent.name}`);

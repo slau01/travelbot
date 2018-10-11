@@ -1,7 +1,7 @@
 'use strict'
 
-const getTravelInsuranceIntent = require("./getTravelInsuranceIntent");
-const payTravellnsuranceIntent = require("./payTravelInsuranceIntent");
+const getTravelInsuranceIntent = require("./getTravelInsuranceQuote/getTravelInsuranceIntent");
+const payTravellnsuranceIntent = require("./payTravelInsurance/payTravelInsuranceIntent");
 
 
 function dispatch(intentRequest, callback) {
