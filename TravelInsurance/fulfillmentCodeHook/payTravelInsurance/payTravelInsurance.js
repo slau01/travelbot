@@ -3,6 +3,7 @@ const lexResponses = require("./../../common/lexResponses");
 
 function payTravelInsurance(intentRequest, callback) {
     const sessionAttributes = intentRequest.sessionAttributes;
+    const confirmationStatus = intentRequest.currentIntent.confirmationStatus;
     const paymentType = intentRequest.currentIntent.slots.GetPaymentType;
     const tripType = sessionAttributes.tripType;
     const tripStartDate = sessionAttributes.tripStartDate;
@@ -10,11 +11,19 @@ function payTravelInsurance(intentRequest, callback) {
     const tripLocation = sessionAttributes.tripLocation;
     const tripTraveller = sessionAttributes.tripTraveller;
     const quote = sessionAttributes.quote;
+    var message = "";
 
-    const message = "We have completed the transaction of HKD " + quote + " from your " + paymentType + ". Have a safe trip to " + tripLocation + " on " + tripStartDate + "!";
-
+    console.log("confirmationStatus: " + confirmationStatus);
     const fulfillmentState = "Fulfilled";
 
+    if (confirmationStatus !== "Denied") {
+        message = "We have completed the transaction of HKD " + quote + " from your " + paymentType + ". Have a safe trip to " + tripLocation + " on " + tripStartDate + "!";
+    }
+    else {
+        message = "Okay, your order has been cancelled!.";
+    }
+
+    console.log(message);
     const msg = {
         contentType: "PlainText",
         content: message
@@ -30,8 +39,7 @@ function payTravelInsurance(intentRequest, callback) {
             fulfillmentState: fulfillmentState,
             message: msg
         }
-    };
-
+    }
     console.log(response);
     callback(response);
 }

@@ -16,7 +16,7 @@ function payTravelInsuranceIntent(intentRequest, callback) {
 
     if (intentRequest.invocationSource === 'DialogCodeHook') {
         const validationResult = validatePayTravelInsurance(intentRequest.currentIntent.slots);
-        console.log("after validation Travel Insurance")
+        console.log("after validation Pay Travel Insurance")
         if (!validationResult.isValid) {
             const slots = intentRequest.currentIntent.slots;
             slots[`${validationResult.violatedSlot}`] = null;

@@ -21,6 +21,7 @@ module.exports.confirmIntent = function(sessionAttributes, intentName, slots, me
             intentName,
             slots,
             message,
+            responsecard,
         },
     };
 }
@@ -43,5 +44,17 @@ module.exports.delegate = function(sessionAttributes, slots) {
             type: 'Delegate',
             slots,
         },
+    };
+}
+
+module.exports.getResponseCard = function(title, subTitle, imageUrl, buttons) {
+    return {
+        contentType: 'application/vnd.amazonaws.card.generic',
+        genericAttachments: [{
+            title,
+            subTitle,
+            imageUrl,
+            buttons
+        }]
     };
 }

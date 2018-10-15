@@ -10,6 +10,7 @@ function getTravelInsuranceIntent(intentRequest, callback) {
     const tripLocation = intentRequest.currentIntent.slots.GetTripLocation;
     const tripTraveller = intentRequest.currentIntent.slots.GetTripTaveller;
     const sessionAttributes = intentRequest.sessionAttributes;
+    const confirmationStatus = intentRequest.currentIntent.confirmationStatus;
 
     console.log(intentRequest.invocationSource);
     console.log(intentRequest.currentIntent.slots);
